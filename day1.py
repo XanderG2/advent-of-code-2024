@@ -11,12 +11,25 @@ for line in inputLines:
 
 leftList.sort(); rightList.sort()
 
-pairs = zip(leftList, rightList)
+def partOne():
+    pairs = zip(leftList, rightList)
 
-sum = 0
+    sum = 0
 
-for n in pairs:
-    difference = abs(n[0] - n[1])
-    sum += difference
+    for n in pairs:
+        difference = abs(n[0] - n[1])
+        sum += difference
 
-print(sum)
+    print(sum)
+
+def partTwo():
+    sum = 0
+
+    for n in leftList:
+        appearences = rightList.count(n)
+        sum += appearences * n
+
+    print(sum)
+
+partOne()
+partTwo()

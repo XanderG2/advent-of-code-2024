@@ -1,13 +1,12 @@
 with open("inputs/day2.txt", "r") as f:
     inputLines = f.readlines()
 
-safeTotal = 0
-
-for line in inputLines:
+def everyLine(line):
     reports = [int(x) for x in line.split()]
     previousReport = None
     increase = None
     safe = True
+    safeDampened = 0
     for report in reports:
         if increase == None:
             if previousReport:
@@ -15,25 +14,35 @@ for line in inputLines:
                     increase = False
                 elif previousReport == report:
                     safe = False
+                    safeDampened += 1
                 else: 
                     increase = True
         if previousReport and (increase != None):
-            if previousReport > report and increase == True:
+            if (previousReport > report and increase == True) or (previousReport < report and increase == False) or (previousReport == report) or (increase and (previousReport <= report - 4)) or (not increase) and (previousReport >= report + 4):
                 safe = False
-            elif previousReport < report and increase == False:
-                safe = False
-            elif previousReport == report:
-                safe = False
-            elif increase and (previousReport <= report - 4):
-                safe = False
-            elif (not increase) and (previousReport >= report + 4):
-                safe = False
-        #print(f"{report}, {'safe' if safe else 'unsafe'}, increased by: {report - previousReport if not previousReport == None else "nope"}")
         previousReport = report
-    #print(f"safe: {safe}, {'increase' if increase else 'decrease'}")
-    if safe:
-        safeTotal += 1
-        #print(f"safe. {safeTotal} times")
+    return safe
 
-print(safeTotal)
+def partOne():
+    safeTotal = 0
+    for line in inputLines:
+        safeTotal += everyLine(line)
+    print(safeTotal)
+
+def partTwo():
+    safeTotal = 0
+    for line in inputLines:
+        if everyLine(line):
+            safeTotal += 1
+            continue
+        for i in range(len(line)):
+            if everyLine(line[:i-1] + line[i+1:]):
+                safeTotal += 1
+                break
+    print(safeTotal)
+
+
+
+partOne()
+partTwo()
 

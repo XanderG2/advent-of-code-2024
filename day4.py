@@ -13,13 +13,45 @@ def checkDirection(dx, dy, x, y):
         for i, (px, py) in enumerate(positions)
     )
 
-xmases = 0
+def partOne():
+    xmases = 0
 
-for y in range(len(inputLines)):
-    for x in range(len(inputLines[y])):
-        if inputLines[y][x] == "X":
-            for dx, dy in directions:
-                if checkDirection(dx, dy, x, y):
-                    xmases += 1
+    for y in range(len(inputLines)):
+        for x in range(len(inputLines[y])):
+            if inputLines[y][x] == "X":
+                for dx, dy in directions:
+                    if checkDirection(dx, dy, x, y):
+                        xmases += 1
 
-print(xmases)
+    print(xmases)
+
+def partTwo():
+    xmases = 0
+    crossShape = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
+    for y in range(len(inputLines)):
+        for x in range(len(inputLines[y])):
+            letters = {}
+            invalid = False
+            if inputLines[y][x] == "A":
+                for letter in crossShape:
+                    if not positionIsValid(x+letter[0], y+letter[1]):
+                        invalid = True
+                        break
+                    letters[f"{letter}"] = inputLines[y+letter[1]][x+letter[0]]
+                if letters == {}:
+                    invalid = True
+                if not invalid:
+                    thing = []
+                    thing.append([letters["(1, 1)"], letters["(-1, -1)"]])
+                    thing.append([letters["(-1, 1)"], letters["(1, -1)"]])
+                    for thingy in thing:
+                        thingy.sort()
+                    if thing == [["M", "S"], ["M", "S"]]:
+                        xmases += 1
+    print(xmases)
+                
+
+
+
+partOne()
+partTwo()

@@ -1,5 +1,3 @@
-import json
-
 with open("inputs/day11.txt", "r") as f:
     input = f.read().strip()
 
@@ -51,8 +49,6 @@ def blink(numbers):
 
 def partOne():
     newNumbers = {x: 1 for x in numbers}
-    json_formatted_str = json.dumps(newNumbers, indent=2)
-    print(json_formatted_str)
     for _ in range(25):
         newNumbers = blink(newNumbers)
     print(sum(newNumbers.values()))
